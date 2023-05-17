@@ -1,0 +1,44 @@
+
+img{
+  height: 20rem;
+}
+
+.more{
+  background-color:rgb(230, 26, 138);
+}
+.less{
+  background-color:rgb(146, 214, 63);
+}
+
+.more,.less{
+  border: none;
+  font-size: 16px;
+  color: #FFF;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.Button{
+  background-color:burlywood;
+  border: none;
+  font-size: 16px;
+  color: #FFF;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.unimation{
+  transition: .4s;
+}
+.unimation:hover{
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16),
+  0 3px 6px rgba(0,0,0,0.23);
+  transform: translate(0px, -15px);
+}
+

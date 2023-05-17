@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous" />
+  <style>
+    .more {
+      background-color: rgb(230, 26, 138);
+    }
+
+    .less {
+      background-color: rgb(146, 214, 63);
+    }
+  </style>
+  <script src="./vueversion3.js"></script>
+</head>
+
+<body>
+  <div id="mainapp">
+    <div class="container">
+      <form class="row g-0 my-2 p-2" v-if="!isUserDataVisible">
+        <div class="form-group mt-2">
+          <label for="title">Title</label>
+          <input type="text" id="title" class="form-control" v-model="post.title" />
+        </div>
+        <div class="form-group mt-2">
+          <label for="content">Content</label>
+          <input type="text" id="content" class="form-control" v-model="post.content" />
+        </div>
+        <div class="form-group mt-2">
+          <label for="content">Category</label>
+          <div v-for="category in postdata.categories">
+            <input type="radio" name="category" :value="category" v-model="post.category" />
+            &nbsp;&nbsp;
+            <label>{{category}}</label>
+          </div>
+        </div>
+
+
+        <div class="form-group mt-2">
+          <label for="content">series</label>
+          <div>
+            <select v-model="post.series">
+              <option selected>Select Edition</option>
+              <option v-for="ser in postdata.series">{{ser}}</option>
+            </select>
+            <!-- <input type="radio" name="category" :value="category" v-model="post.category" />
+            &nbsp;&nbsp;
+            <label>{{category}}</label> -->
+          </div>
+        </div>
+
+
+        <div class="form-group mt-2">
+          <label for="content">shareon</label>
+          <div v-for="media in postdata.shareon">
+            <input type="checkbox" name="media" :value="media" v-model="post.shareon" />
+            &nbsp;&nbsp;
+            <label>{{media}}</label>
+          </div>
+          <input type="checkbox" name="media" :value="media" v-model="post.sendimmedialty" true-value="Immediatly"
+            false-value="Later" />&nbsp;&nbsp;
+          <span class="fs-5">ShareImmediatly</span>
+        </div>
+        <button class="btn btn-primary w-100 my-2" @click="isUserDataVisible=true">
+          Next
+        </button>
+      </form>
+
+      <div class="row g-0 mt-2 border border-primary p-2" v-else>
+        <h4 class="w-100 text-primary text-center">User Data</h4>
+        <label class="text-primary lead">Tit1e : </label>
+        <p>{{post.title}}</p>
+        <label class="text-primary lead">Content :</label>
+        <p style="white-space: pre">{{post.content}}</p>
+        <label class="text-primary lead">category :</label>
+        <p style="white-space: pre">{{post.category}}</p>
+        <label class="text-primary lead">series :</label>
+        <p style="white-space: pre">{{post.series}}</p>
+        <label class="text-primary lead">Share immediatly: {{post.sendimmedialty}}</label>
+        <label class="text-primary lead">shareon:</label>
+        <ul class="list-group">
+          <li class="list-group-item" v-for="media in post.shareon">
+            {{media}}
+          </li>
+        </ul>
+        <button class="btn btn-primary w-100 my-2" @click="isUserDataVisible=false">
+          Prev
+        </button>
+        <button class="btn btn-warning w-100 my-2">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const app = Vue.createApp({
+      data: () => ({
+        isUserDataVisible: false,
+        post: {
+          title: "",
+          content: "",
+          category: "",
+          shareon: [],
+          series:""
+        },
+        postdata: {
+          categories: ["Testing", "Developing", "Networking", "Designing"],
+          shareon: ["Facebook", "Twitter", "LinkedIN", "Instagram"],
+          series: ["First Edition", "Second Edition" , "Third Edition"],
+          sendimmedialty: false,
+        },
+      }),
+      methods: {
+        addToWishlist(book) {
+          console.log(this.wishlist);
+          this.wishlist.push(book);
+          book.alreadyAdded = true;
+        },
+        removeFromWishlist(book) {
+          this.wishlist.splice(this.wishlist.indexOf(book), 1);
+          book.alreadyAdded = false;
+        },
+        formateCurrency(value) {
+          let formatter = Intl.NumberFormat("ar-SA", {
+            style: "currency",
+            currency: "SAR",
+            minimumFractionDigits: 0,
+          });
+          return formatter.format(value);
+        },
+      },
+    });
+
+    app.mount("#mainapp");
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lassssb2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script src="./vuescript.js"></script>
+    <script src="books.js"></script>
+    <style>
+        .more {
+            color: darkgreen;
+        }
+
+        .less {
+            color: darkgoldenrod;
+        }
+
+        .empty {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid" id="c">
+        <form class="row g-3 needs-validation flex-column align-items-center"  novalidate  @submit.prevent="show" ref="form" v-if="!showdata">
+ 
+            <div class="col-md-4">
+                <label for="validationCustom01" class="form-label">Title</label>
+                <input type="text" class="form-control" id="validationCustom01" value="" v-model="post.title" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <label for="validationCustom03" class="form-label">Content</label>
+                <textarea type="text" class="form-control" id="validationCustom03" v-model="post.content"
+                    required></textarea>
+                <div class="invalid-feedback">
+                    Please provide a valid Content.
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <label for="validationCustom04" class="form-label">State</label>
+                <select class="form-select" id="validationCustom04" required v-model="post.series">
+                    <option selected disabled value="">Choose...</option>
+                    <option v-for="ser in postData.series">{{ser}}</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select a valid state.
+                </div>
+            </div>
+
+
+            <div class="form-check col-md-3">
+                <div v-for="cat in postData.category">
+                    <input class="form-check-input" type="radio" :value="cat" name="category" v-model="post.category"
+                        :id="cat" required>
+                    <label class="form-check-label" :for="cat">
+                        {{cat}}
+                    </label>
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please select a valid Category.
+                </div>
+            </div>
+
+
+            <div class="form-check col-md-3">
+                <div v-for="share in postData.shareOn">
+
+                    <input class="che form-check-input" type="checkbox" :value="share" v-model="post.shareOn"
+                        :id="share" name="share" required onchange="checkRequired()">
+                    <label class="form-check-label" :for="share">
+                        {{share}}
+                    </label>
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please select a valid ShareOn.
+                </div>
+            </div>
+
+
+            <div class="form-check col-md-3">
+                <div>
+
+                    <input class="form-check-input" false-value="Later..." true-value="Sent" type="checkbox" value=""
+                        id="flexCheckDefault2" required v-model="post.sendImmediately">
+                    <label class="form-check-label" for="flexCheckDefault2">
+                        Share Immediatily
+                    </label>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please select a valid state.
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="col-2">
+                <button class="btn btn-primary" type="submit">Next</button>
+            </div>
+
+        </form>
+        <div class="content my-3" style="border: 1px solid cyan;" v-else >
+            <div>
+                <h4 class="text-primary">Title</h4>
+                <p class="text-muted">{{post.title}}</p>
+            </div>
+            <div>
+                <h4 class="text-primary">Category</h4>
+                <p class="text-muted">{{post.category}}</p>
+            </div>
+            <div>
+                <h4 class="text-primary">Content</h4>
+                <p class="text-muted">{{post.content}}</p>
+            </div>
+            <div>
+                <h4 class="text-primary">Series</h4>
+                <p class="text-muted">{{post.series}}</p>
+            </div>
+            <div>
+                <h4 class="text-primary">ShareOn</h4>
+
+                <p v-for="s in post.shareOn" class="text-muted">{{s}}</p>
+            </div>
+
+            <div>
+                <h4 class="text-primary">Send Immediately</h4>
+                <p class="text-muted"><span>{{post.sendImmediately}}</span></p>
+            </div>
+            <div class="col-12 my-4">
+                <button class="btn btn-primary" @click="showdata=false">Back</button>
+            </div>
+            <div class="col-12 my-4">
+                <button class="btn btn-primary">Submit</button>
+            </div>
+
+        </div>
+ 
+    </div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script>
+        const app = Vue.createApp({
+            data: () => ({
+                showdata:false,
+                post: {
+                    title: "",
+                    content: "",
+                    category: "",
+                    shareOn: [],
+                    sendImmediately: false
+                },
+                postData: {
+                    category: ["Testing", "Development", "Network", "Designing"],
+                    shareOn: ["Facebook", "Twitter", "Instagram", "LinkedIn"],
+                    series: ["First Edition", "Second Edition", "Third Edition"]
+                }
+            }),
+            methods: {
+                checkValidation(event) {
+                    console.log(event);
+                },
+                show(){
+                    if (this.$refs.form.checkValidity()) {
+                      // Form is valid, show user data
+                         this.showdata = true;
+                   } else {
+                     // Form is invalid, do nothing
+                   }
+                }
+              
+            }
+        })
+        app.mount("#c");
+    </script>
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+    <script src="./validation.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+</body>
